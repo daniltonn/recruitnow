@@ -22,4 +22,10 @@ router.put("/vacantes/:id", (req, res) => {
     .then((vacante) => res.json(vacante))
     .catch((error) => res.status(400).json({ message: error.message }));
 });
+
+router.delete("/vacantes/:id", (req, res) => {
+  Vacante.findByIdAndDelete(req.params.id)
+    .then(() => res.status(200).json({ message: "Vacante eliminada correctamente" }))
+    .catch((error) => res.status(400).json({ message: error.message }));
+});
 module.exports = router;
