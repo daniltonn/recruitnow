@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Vacante = require("../models/Vacante");
+const Vacante = require("../model/Vacante");
 
 router.post("/vacantes", (req, res) => {
   const { titulo, descripcion, ubicacion, salario, experienciaRequerida, requisitosEstudio, NBC } = req.body;
@@ -16,4 +16,10 @@ router.get("/vacantes", (req, res) => {
     .catch((error) => res.status(400).json({ message: error.message }));
 });
 
+router.put("/vacantes/:id", (req, res) => {
+  const { titulo, descripcion, ubicacion, salario, experienciaRequerida, requisitosEstudio, NBC } = req.body;
+  Vacante.findByIdAndUpdate(req.params.id, { titulo, descripcion, ubicacion, salario, experienciaRequerida, requisitosEstudio, NBC }, { new: true })
+    .then((vacante) => res.json(vacante))
+    .catch((error) => res.status(400).json({ message: error.message }));
+});
 module.exports = router;
