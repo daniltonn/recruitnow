@@ -71,5 +71,16 @@ router.delete("/applications/:id", async (req, res) => {
   }
 });
 
+router.delete("/applications/:id", async (req, res) => {
+  try {
+    const existe = await Postulacion.findById(req.params.id);
+    if (!existe) return res.status(404).json({ message: "Postulación no encontrada" });
+
+    await Postulacion.findByIdAndDelete(req.params.id);
+    res.json({ message: "Postulación eliminada correctamente" });
+  } catch (error) {
+    res.status(400).json({ message: "ID inválido o no encontrado" });
+  }
+});
 
 module.exports = router;
