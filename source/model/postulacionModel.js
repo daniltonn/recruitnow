@@ -1,14 +1,21 @@
-const mongoose = require("mongoose");
-
 const postulacionSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Usuario"
+    ref: "Usuario",
+    required: true
   },
   vacante: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Vacante"
+    ref: "Vacante",
+    required: true
+  },
+  fechaPostulacion: {
+    type: Date,
+    default: Date.now
+  },
+  estado: {
+    type: String,
+    enum: ["Pendiente", "Aceptada", "Rechazada"],
+    default: "Pendiente"
   }
 });
-
-module.exports = mongoose.model("Postulacion", postulacionSchema);
