@@ -25,5 +25,19 @@ router.get("/applications", async (req, res) => {
   }
 });
 
+router.get("/applications", async (req, res) => {
+  try {
+    const { usuario, vacante } = req.query;
+    const filtro = {};
+    if (usuario) filtro.usuario = usuario;
+    if (vacante) filtro.vacante = vacante;
+
+    const postulaciones = await Postulacion.find(filtro).populate("usuario").populate("vacante");
+    res.json(postulaciones);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
