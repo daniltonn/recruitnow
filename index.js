@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
+const vacante = require("./source/routes/vacante");
 require('dotenv').config();
 
 // ✅ Middleware para leer datos del body
@@ -10,7 +11,7 @@ app.use(express.urlencoded({ extended: false })); // permite leer los datos que 
 app.use(express.json()); // transforma los datos a formato JSON
 
 // ✅ Rutas
-app.use("/api", "vacante");
+app.use("/api/vacante", vacante);
 
 
 // ✅ Conexión a la base de datos

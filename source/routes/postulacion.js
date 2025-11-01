@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Postulacion = require("../model/postulacionModel");
 
-router.post("/applications", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { usuario, vacante } = req.body;
     const existe = await Postulacion.findOne({ usuario, vacante });
@@ -16,7 +16,7 @@ router.post("/applications", async (req, res) => {
   }
 });
 
-router.get("/applications", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const postulaciones = await Postulacion.find().populate("usuario").populate("vacante");
     res.json(postulaciones);
@@ -25,7 +25,7 @@ router.get("/applications", async (req, res) => {
   }
 });
 
-router.get("/applications", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { usuario, vacante } = req.query;
     const filtro = {};
@@ -41,7 +41,7 @@ router.get("/applications", async (req, res) => {
 
 
 
-router.put("/applications/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const { estado } = req.body;
     const permitidos = ["Pendiente", "Aceptada", "Rechazada"];
@@ -56,7 +56,7 @@ router.put("/applications/:id", async (req, res) => {
 
 
 
-router.delete("/applications/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const existe = await Postulacion.findById(req.params.id);
     if (!existe) return res.status(404).json({ message: "Postulación no encontrada" });
