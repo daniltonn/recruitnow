@@ -62,5 +62,14 @@ router.put("/applications/:id", async (req, res) => {
   }
 });
 
+router.delete("/applications/:id", async (req, res) => {
+  try {
+    await Postulacion.findByIdAndDelete(req.params.id);
+    res.json({ message: "Postulación eliminada" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
