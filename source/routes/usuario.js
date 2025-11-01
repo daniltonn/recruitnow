@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Usuario = require("../models/Usuario");
+const Usuario = require("../models/usuarioModel");
 
 router.post("/users", async (req, res) => {
   try {
@@ -13,6 +13,16 @@ router.post("/users", async (req, res) => {
     res.status(201).json(guardado);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// Obtener todos los usuarios
+router.get("/users", async (req, res) => {
+  try {
+    const usuarios = await Usuario.find();
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

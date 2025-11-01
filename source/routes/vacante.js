@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Vacante = require("../model/Vacante");
+const Vacante = require("../model/vacanteModel");
 
 router.post("/vacantes", (req, res) => {
   const { titulo, descripcion, ubicacion, salario, experienciaRequerida, requisitosEstudio, NBC } = req.body;
