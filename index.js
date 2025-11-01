@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const vacante = require("./source/routes/vacante");
+const hojaVida = require("./source/routes/hojaVida");
 require('dotenv').config();
 
 // ✅ Middleware para leer datos del body
@@ -12,6 +13,7 @@ app.use(express.json()); // transforma los datos a formato JSON
 
 // ✅ Rutas
 app.use("/api/vacante", vacante);
+app.use("/api/hoja-vida", hojaVida);
 
 
 // ✅ Conexión a la base de datos
