@@ -37,5 +37,14 @@ router.get("/users", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// Actualizar usuario
+router.put("/users/:id", async (req, res) => {
+  try {
+    const actualizado = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(actualizado);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 module.exports = router;
