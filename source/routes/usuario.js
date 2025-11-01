@@ -37,9 +37,11 @@ router.get("/users", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-// Actualizar usuario
 router.put("/users/:id", async (req, res) => {
   try {
+    const existe = await Usuario.findById(req.params.id);
+    if (!existe) return res.status(404).json({ message: "Usuario no encontrado" });
+
     const actualizado = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(actualizado);
   } catch (error) {
