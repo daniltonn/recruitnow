@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Postulacion = require("../models/Postulacion");
+const Postulacion = require("../model/postulacionModel");
 
 router.post("/applications", async (req, res) => {
   try {
@@ -39,15 +39,7 @@ router.get("/applications", async (req, res) => {
   }
 });
 
-router.put("/applications/:id", async (req, res) => {
-  try {
-    const { estado } = req.body;
-    const actualizado = await Postulacion.findByIdAndUpdate(req.params.id, { estado }, { new: true });
-    res.json(actualizado);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+
 
 router.put("/applications/:id", async (req, res) => {
   try {
@@ -62,14 +54,7 @@ router.put("/applications/:id", async (req, res) => {
   }
 });
 
-router.delete("/applications/:id", async (req, res) => {
-  try {
-    await Postulacion.findByIdAndDelete(req.params.id);
-    res.json({ message: "Postulación eliminada" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+
 
 router.delete("/applications/:id", async (req, res) => {
   try {
