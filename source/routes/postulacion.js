@@ -16,5 +16,14 @@ router.post("/applications", async (req, res) => {
   }
 });
 
+router.get("/applications", async (req, res) => {
+  try {
+    const postulaciones = await Postulacion.find().populate("usuario").populate("vacante");
+    res.json(postulaciones);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
