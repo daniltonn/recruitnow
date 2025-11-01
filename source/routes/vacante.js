@@ -9,7 +9,7 @@ router.post("/vacantes", (req, res) => {
     .then(() => res.status(201).send({ message: "Vacante creada correctamente" }))
     .catch((error) => res.status(400).json({ message: error.message }));
 });
-
+//consolta
 router.get("/vacantes", (req, res) => {
   Vacante.find()
     .then((vacantes) => res.json(vacantes))
