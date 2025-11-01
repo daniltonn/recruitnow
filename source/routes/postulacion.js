@@ -49,5 +49,18 @@ router.put("/applications/:id", async (req, res) => {
   }
 });
 
+router.put("/applications/:id", async (req, res) => {
+  try {
+    const { estado } = req.body;
+    const permitidos = ["Pendiente", "Aceptada", "Rechazada"];
+    if (!permitidos.includes(estado)) return res.status(400).json({ message: "Estado no válido" });
+
+    const actualizado = await Postulacion.findByIdAndUpdate(req.params.id, { estado }, { new: true });
+    res.json(actualizado);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 
 module.exports = router;
