@@ -5,6 +5,9 @@ const port = 3000;
 const mongoose = require("mongoose");
 const vacante = require("./source/routes/vacante");
 const hojaVida = require("./source/routes/hojaVida");
+const postulacion = require("./source/routes/postulacion");
+const usuario = require("./source/routes/usuario");
+
 require('dotenv').config();
 
 // ✅ Middleware para leer datos del body
@@ -14,8 +17,8 @@ app.use(express.json()); // transforma los datos a formato JSON
 // ✅ Rutas
 app.use("/api/vacante", vacante);
 app.use("/api/hoja-vida", hojaVida);
-
-
+app.use("/api/usuario", usuario);
+app.use("/api/postulacion", postulacion);
 // ✅ Conexión a la base de datos
 mongoose
     .connect(process.env.MONGODB_URI)
