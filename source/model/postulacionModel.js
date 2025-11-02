@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const postulacionSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,3 +21,4 @@ const postulacionSchema = new mongoose.Schema({
     default: "Pendiente"
   }
 });
+module.exports = mongoose.model("Postulacion", postulacionSchema);

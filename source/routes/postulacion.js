@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 router.get("/", async (req, res) => {
   try {
     const { usuario, vacante } = req.query;
