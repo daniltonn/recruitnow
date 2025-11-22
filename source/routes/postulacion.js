@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Postulacion = require("../model/postulacionModel");
+const verifyToken = require("../middleware/verifyToken");
 
 router.post("/", async (req, res) => {
   try {
@@ -16,7 +17,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken,async (req, res) => {
   try {
     const postulaciones = await Postulacion.find().populate("usuario").populate("vacante");
     res.json(postulaciones);
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
 });
 
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken,async (req, res) => {
   try {
     const { usuario, vacante } = req.query;
     const filtro = {};
@@ -42,7 +43,7 @@ router.get("/", async (req, res) => {
 
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken,async (req, res) => {
   try {
     const { estado } = req.body;
     const permitidos = ["Pendiente", "Aceptada", "Rechazada"];
@@ -57,7 +58,7 @@ router.put("/:id", async (req, res) => {
 
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken,async (req, res) => {
   try {
     const existe = await Postulacion.findById(req.params.id);
     if (!existe) return res.status(404).json({ message: "Postulación no encontrada" });

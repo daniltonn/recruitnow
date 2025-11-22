@@ -1,15 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const Usuario = require("../model/usuarioModel");
+const verifyToken = require("../middleware/verifyToken");
 
-router.post("/", async (req, res) => {
+
+router.post("/", verifyToken, async (req, res) => {
   try {
-    const { email } = req.body;
-    const existe = await Usuario.findOne({ email });
-    if (existe) return res.status(400).json({ message: "El correo ya está registrado" });
+    const { nombre, email, contrasena, rol } = req.body;
 
-    const usuario = new Usuario(req.body);
-    const guardado = await usuario.save();
+    const existe = await Usuario.findOne({ email });
+    if (existe) {
+      return res.status(400).json({ message: "El correo ya está registrado" });
+    }
+
+    const nuevoUsuario = new Usuario({
+      nombre,
+      email,
+      contrasena,
+      rol
+    });
+
+    // Encriptar contraseña
+    nuevoUsuario.contrasena = await nuevoUsuario.encryptClave(contrasena);
+
+    const guardado = await nuevoUsuario.save();
+
     res.status(201).json(guardado);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -17,7 +32,7 @@ router.post("/", async (req, res) => {
 });
 
 // Obtener todos los usuarios
-router.get("/", async (req, res) => {
+router.get("/", verifyToken,async (req, res) => {
   try {
     const usuarios = await Usuario.find();
     res.json(usuarios);
@@ -27,7 +42,7 @@ router.get("/", async (req, res) => {
 });
 
 // Filtrar usuarios por rol
-router.get("/", async (req, res) => {
+router.get("/", verifyToken,async (req, res) => {
   try {
     const { rol } = req.query;
     const filtro = rol ? { rol } : {};
@@ -37,7 +52,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken,async (req, res) => {
   try {
     const existe = await Usuario.findById(req.params.id);
     if (!existe) return res.status(404).json({ message: "Usuario no encontrado" });
@@ -48,7 +63,7 @@ router.put("/:id", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken ,async (req, res) => {
   try {
     await Usuario.findByIdAndDelete(req.params.id);
     res.json({ message: "Usuario eliminado" });
@@ -56,7 +71,7 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken,async (req, res) => {
   try {
     const usuario = await Usuario.findById(req.params.id);
     if (!usuario) return res.status(404).json({ message: "Usuario no encontrado" });

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
-
   },
   "repository": {
     "type": "git",
@@ -19,10 +18,10 @@
   },
   "homepage": "https://github.com/daniltonn/recruitnow#readme",
   "dependencies": {
-    "express": "^5.1.0",
     "bcrypt": "^6.0.0",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.2"
   },
   "devDependencies": {

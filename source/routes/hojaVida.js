@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const HojaVida = require("../model/hojaVidaModel");
 const Usuario = require("../model/usuarioModel");
+const verifyToken = require("../middleware/verifyToken");
 
 // RF5 - Crear Hoja de Vida
-router.post("/", async (req, res) => {
+router.post("/", verifyToken,async (req, res) => {
     try {
         const { usuarioId } = req.body;
 
@@ -39,7 +40,7 @@ router.post("/", async (req, res) => {
 });
 
 // RF6 - Consultar Hojas de Vida (todas)
-router.get("/", async (req, res) => {
+router.get("/", verifyToken,async (req, res) => {
     try {
         const { usuarioId, esPublica, page = 1, limit = 10 } = req.query;
 
@@ -78,7 +79,7 @@ router.get("/", async (req, res) => {
 });
 
 // RF6 - Consultar Hoja de Vida específica por ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken,async (req, res) => {
     try {
         const hojaVida = await HojaVida.findById(req.params.id)
             .populate('usuarioId', 'nombre email rol fechaRegistro');
@@ -100,7 +101,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // RF6 - Consultar Hoja de Vida por Usuario
-router.get("/usuario/:usuarioId", async (req, res) => {
+router.get("/usuario/:usuarioId",verifyToken, async (req, res) => {
     try {
         const hojaVida = await HojaVida.findOne({ usuarioId: req.params.usuarioId })
             .populate('usuarioId', 'nombre email rol fechaRegistro');
@@ -122,7 +123,7 @@ router.get("/usuario/:usuarioId", async (req, res) => {
 });
 
 // RF7 - Editar Hoja de Vida
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken,async (req, res) => {
     try {
         const hojaVidaExiste = await HojaVida.findById(req.params.id);
         if (!hojaVidaExiste) {
@@ -165,7 +166,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // RF8 - Eliminar Hoja de Vida
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken,async (req, res) => {
     try {
         const hojaVidaEliminada = await HojaVida.findByIdAndDelete(req.params.id);
 

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const usuarioSchema = new mongoose.Schema({
   nombre: {
@@ -10,7 +11,7 @@ const usuarioSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  contraseña: {
+  contrasena: {
     type: String,
     required: true
   },
@@ -24,5 +25,16 @@ const usuarioSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+// Método para encriptar contraseña
+usuarioSchema.methods.encryptClave = async function (clave) {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(clave, salt);
+};
+
+// Método para validar contraseña
+usuarioSchema.methods.validarClave = async function (clavePlano) {
+  return bcrypt.compare(clavePlano, this.contrasena);
+};
 
 module.exports = mongoose.model("Usuario", usuarioSchema);
