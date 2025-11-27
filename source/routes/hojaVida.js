@@ -40,7 +40,7 @@ router.post("/", verifyToken,async (req, res) => {
 });
 
 // RF6 - Consultar Hojas de Vida (todas)
-router.get("/", verifyToken,async (req, res) => {
+router.get("/",async (req, res) => {
     try {
         const { usuarioId, esPublica, page = 1, limit = 10 } = req.query;
 
